@@ -6,7 +6,6 @@ import org.opencv.imgproc.Imgproc;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.CameraServer;
-import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
@@ -96,12 +95,12 @@ public class Robot extends IterativeRobot {
         
         // Add options to the SmartDashboard for Auto.
         autoChooser.addDefault("Blank Auto", defaultAuto);
-        autoChooser.addObject("Shooting Assist", customAuto1);
-		autoChooser.addObject("Driving Assist", customAuto2);
+        autoChooser.addObject("Vision Centering X + Y", customAuto1);
+		autoChooser.addObject("Vision Control Stick", customAuto2);
 		SmartDashboard.putData("Auto choices", autoChooser);
     }
     
-    // AUTONOUMOUS INIT - RUNS ONCE WHEN THE AUTONOMOUS PERIOD BEGINS.
+    // AUTONOMOUS INIT - RUNS ONCE WHEN THE AUTONOMOUS PERIOD BEGINS.
     
     public void autonomousInit() {
     	// Define which Auto was selected to a variable and print which one is selected to the console.
@@ -271,6 +270,9 @@ public class Robot extends IterativeRobot {
     	
         	// Set the motor speed to the calculated variables and add the vector given by the gyro.
     		drive.mecanumDrive_Cartesian(xSpeed, ySpeed, zSpeed, gyro.getAngle());
+        	break;
+        default:
+        	drive.mecanumDrive_Cartesian(0, 0, 0, 0);
         	break;
         }
         
