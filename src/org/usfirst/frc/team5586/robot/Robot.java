@@ -29,6 +29,7 @@ public class Robot extends IterativeRobot {
 	SendableChooser<String> autoChooser = new SendableChooser<String>();
 	
 	// Define all variables used for teleOp selection.
+	final String defaultmode = "Blank";
 	final String mode1 = "Xbox Driving";
 	final String mode2 = "Flight-Stick Driving";
 	String teleOpSelected;
@@ -78,6 +79,7 @@ public class Robot extends IterativeRobot {
         // Start the camera streaming to the dashboard and set the resolution.
         UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
         camera.setResolution(IMG_WIDTH, IMG_HEIGHT);
+        camera.setFPS(20);
         
         // Create an instance of the vision pipeline to be run, and define what variables we want to pull out of it.
         VisionThread visionThread = new VisionThread(camera, new Pipeline(), pipeline -> {
@@ -195,6 +197,10 @@ public class Robot extends IterativeRobot {
         double xSpeed;
         double ySpeed;
         double zSpeed;
+        teleOpChooser.addDefault("Blank teleOp", defaultAuto);
+    	teleOpChooser.addObject("Xbox Driving", mode1);
+    	teleOpChooser.addObject("Flight-Stick Driving", mode2);
+    	SmartDashboard.putData("teleOp Choices", teleOpChooser);
         
         // Publish information to the SmartDashboard.
         SmartDashboard.putNumber("Gyro Angle", gyro.getAngle());
